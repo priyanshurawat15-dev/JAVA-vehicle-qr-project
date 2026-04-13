@@ -94,7 +94,7 @@ const handleSignup = async () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded-xl shadow w-[350px]">
         <div className="flex justify-center mb-4">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" className="w-12 h-12" />
+          <img src="/logo.png" className="w-12 h-12" />
         </div>
 
         <h2 className="text-center text-lg font-semibold mb-4">
