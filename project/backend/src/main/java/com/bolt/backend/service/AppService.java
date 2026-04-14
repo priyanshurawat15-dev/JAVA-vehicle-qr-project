@@ -82,7 +82,7 @@ public class AppService {
     }
 
     public ApiModels.VehicleRegistrationResponse registerVehicle(String token, ApiModels.VehicleRegistrationRequest request) {
-        Map<String, Object> user = requireUser(token);
+        
         if (request.vehicleNumber() == null || request.vehicleNumber().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vehicle number is required");
         }
@@ -95,8 +95,8 @@ public class AppService {
         }
 
         String qrCode = UUID.randomUUID().toString().replace("-", "").substring(0, 12).toUpperCase();
-        String ownerEmail = firstNonBlank(request.ownerEmail(), user.get("email").toString());
-        String ownerName = firstNonBlank(request.ownerName(), stringValue(user.get("name")));
+        String ownerEmail = request.ownerEmail();
+        String ownerName = request.ownerName();
         Map<String, Object> vehicle = repository.createVehicle(qrCode, request.vehicleNumber().trim(), ownerName, ownerEmail);
         repository.createEmergencyContacts(vehicle.get("id").toString(), contacts);
         return new ApiModels.VehicleRegistrationResponse(vehicle.get("id").toString(), vehicle.get("qr_code").toString());
