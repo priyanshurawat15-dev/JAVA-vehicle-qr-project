@@ -82,7 +82,10 @@ public class AppService {
     }
 
     public ApiModels.VehicleRegistrationResponse registerVehicle(String token, ApiModels.VehicleRegistrationRequest request) {
-        
+        if (request == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body is required");
+        }
+
         if (request.vehicleNumber() == null || request.vehicleNumber().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vehicle number is required");
         }
@@ -106,7 +109,8 @@ System.out.println("=== DEBUG END ===");
 
 
         List<ApiModels.EmergencyContactRequest> contacts = request.emergencyContacts() == null ? List.of() : request.emergencyContacts().stream()
-                .filter(contact -> contact.contactName() != null && !contact.contactName().isBlank()
+                .filter(contact -> contact != null
+                        && contact.contactName() != null && !contact.contactName().isBlank()
                         && contact.contactPhone() != null && !contact.contactPhone().isBlank())
                 .toList();
         if (contacts.isEmpty()) {
