@@ -16,9 +16,11 @@ public class CorsConfig {
 
                 registry.addMapping("/**")
                         .allowedOrigins("https://java-vehicle-qr-project.vercel.app")
+                        .allowedOriginPatterns("*") 
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
+                        
             }
         };
     }
