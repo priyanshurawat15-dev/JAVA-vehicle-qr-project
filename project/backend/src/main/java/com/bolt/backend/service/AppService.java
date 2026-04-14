@@ -2,6 +2,7 @@ package com.bolt.backend.service;
 
 import com.bolt.backend.dto.ApiModels;
 import com.bolt.backend.repository.AppRepository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -119,11 +120,24 @@ System.out.println("=== DEBUG END ===");
         }
 
         String qrCode = UUID.randomUUID().toString().replace("-", "").substring(0, 12).toUpperCase();
-        String ownerEmail = request.ownerEmail();
-        String ownerName = request.ownerName();
-        Map<String, Object> vehicle = repository.createVehicle(qrCode, request.vehicleNumber().trim(), ownerName, ownerEmail);
-        repository.createEmergencyContacts(vehicle.get("id").toString(), contacts);
-        return new ApiModels.VehicleRegistrationResponse(vehicle.get("id").toString(), vehicle.get("qr_code").toString());
+        String vehicleNumber = request.vehicleNumber().trim();
+        String ownerEmail = request.ownerEmail().trim();
+        String ownerName = request.ownerName().trim();
+
+        try {
+            Map<String, Object> vehicle = repository.createVehicle(qrCode, vehicleNumber, ownerName, ownerEmail);
+            String vehicleId = vehicle == null ? null : stringValue(vehicle.get("id"));
+            String registeredQrCode = vehicle == null ? null : stringValue(vehicle.get("qr_code"));
+
+            if (vehicleId == null || registeredQrCode == null) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Vehicle registration failed");
+            }
+
+            repository.createEmergencyContacts(vehicleId, contacts);
+            return new ApiModels.VehicleRegistrationResponse(vehicleId, registeredQrCode);
+        } catch (DataAccessException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid vehicle registration data", ex);
+        }
     }
 
     public void createParkingAlert(String vehicleId, ApiModels.ParkingAlertRequest request) {
