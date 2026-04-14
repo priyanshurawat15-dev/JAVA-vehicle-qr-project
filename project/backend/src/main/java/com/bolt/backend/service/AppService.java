@@ -111,6 +111,7 @@ System.out.println("=== DEBUG END ===");
         List<ApiModels.EmergencyContactRequest> contacts = request.emergencyContacts() == null ? List.of() : request.emergencyContacts().stream()
                 .filter(contact -> contact != null
                         && contact.contactName() != null && !contact.contactName().isBlank()
+                        && contact.relationship() != null && !contact.relationship().isBlank()
                         && contact.contactPhone() != null && !contact.contactPhone().isBlank())
                 .toList();
         if (contacts.isEmpty()) {

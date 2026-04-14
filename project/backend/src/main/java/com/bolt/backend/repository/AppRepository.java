@@ -39,6 +39,29 @@ public class AppRepository {
                     updated_at timestamptz DEFAULT now()
                 )
                 """);
+        jdbcTemplate.execute("""
+                CREATE TABLE IF NOT EXISTS vehicles (
+                    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+                    qr_code text UNIQUE NOT NULL,
+                    vehicle_number text NOT NULL,
+                    owner_name text,
+                    owner_email text,
+                    created_at timestamptz DEFAULT now(),
+                    updated_at timestamptz DEFAULT now()
+                )
+                """);
+        jdbcTemplate.execute("""
+                CREATE TABLE IF NOT EXISTS emergency_contacts (
+                    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+                    vehicle_id uuid REFERENCES vehicles(id) ON DELETE CASCADE NOT NULL,
+                    contact_name text NOT NULL,
+                    contact_phone text NOT NULL,
+                    contact_email text,
+                    relationship text NOT NULL,
+                    priority integer DEFAULT 1,
+                    created_at timestamptz DEFAULT now()
+                )
+                """);
         jdbcTemplate.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS model text");
         jdbcTemplate.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS color text");
     }
@@ -125,7 +148,7 @@ public class AppRepository {
             ps.setString(2, contact.contactName());
             ps.setString(3, contact.contactPhone());
             ps.setString(4, blankToNull(contact.contactEmail()));
-            ps.setString(5, blankToNull(contact.relationship()));
+            ps.setString(5, contact.relationship().trim());
             ps.setInt(6, contact.priority() == null ? 1 : contact.priority());
         });
     }
