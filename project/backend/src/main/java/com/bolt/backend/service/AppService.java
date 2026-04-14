@@ -86,6 +86,25 @@ public class AppService {
         if (request.vehicleNumber() == null || request.vehicleNumber().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vehicle number is required");
         }
+
+        if (request.ownerName() == null || request.ownerName().isBlank()) {
+    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Owner name is required");
+}
+
+if (request.ownerEmail() == null || request.ownerEmail().isBlank()) {
+    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Owner email is required");
+}
+
+
+System.out.println("=== DEBUG START ===");
+System.out.println("Vehicle: " + request.vehicleNumber());
+System.out.println("Owner: " + request.ownerName());
+System.out.println("Email: " + request.ownerEmail());
+System.out.println("Contacts: " + request.emergencyContacts());
+System.out.println("=== DEBUG END ===");
+
+
+
         List<ApiModels.EmergencyContactRequest> contacts = request.emergencyContacts() == null ? List.of() : request.emergencyContacts().stream()
                 .filter(contact -> contact.contactName() != null && !contact.contactName().isBlank()
                         && contact.contactPhone() != null && !contact.contactPhone().isBlank())
