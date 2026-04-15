@@ -1,4 +1,4 @@
-
+import ScanPage from "./pages/ScanPage";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Register from './pages/Register';
@@ -49,6 +49,9 @@ function App() {
             <Route path="/scanner" element={<Scanner />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/auth" element={<Auth />} />
+
+
+            <Route path="/scan/:id" element={<ScanPage />} />
 
 
             <Route path="/qr" element={<QRPage />} />
