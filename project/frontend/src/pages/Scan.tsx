@@ -84,7 +84,7 @@ export default function Scan() {
 
         <div className="bg-white rounded-2xl p-5 shadow space-y-4">
           <div className="text-center text-2xl font-bold tracking-widest">
-            {vehicle.vehicle_number }
+            {vehicle.vehicleNumber}
           </div>
 
           <div className="grid grid-cols-2 gap-3">

@@ -3,7 +3,7 @@ export interface Vehicle {
   model?: string;
   color?: string;
   qr_code: string;
-  vehicle_number: string;
+  vehicleNumber: string;
   owner_name?: string;
   owner_email?: string;
   created_at: string;
