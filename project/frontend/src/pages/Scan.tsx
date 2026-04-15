@@ -81,18 +81,18 @@ export default function Scan() {
 
         <div className="bg-white rounded-2xl p-5 shadow space-y-4">
           <div className="text-center text-2xl font-bold tracking-widest">
-            {vehicle.vehicle_number || "KA01XY1234"}
+            {vehicle.vehicle_number }
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-gray-100 p-3 rounded-lg text-sm">
               <p className="text-gray-500">Model</p>
-              <p className="font-medium">{vehicle.model || "Honda City"}</p>
+              <p className="font-medium">{vehicle.model }</p>
             </div>
 
             <div className="bg-gray-100 p-3 rounded-lg text-sm">
               <p className="text-gray-500">Color</p>
-              <p className="font-medium">{vehicle.color || "White"}</p>
+              <p className="font-medium">{vehicle.color }</p>
             </div>
           </div>
 
