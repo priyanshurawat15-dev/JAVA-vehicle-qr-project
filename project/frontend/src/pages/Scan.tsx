@@ -21,7 +21,10 @@ export default function Scan() {
 
       try {
         const data = await apiRequest<Vehicle>(`/api/vehicle/${qrCode}`, { auth: false });
+        console.log("API DATA:", data);
+
         setVehicle(data);
+        
       } catch (err: any) {
         console.error('Error fetching vehicle:', err);
         setError(err.message || 'Failed to load vehicle information');
